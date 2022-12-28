@@ -1,0 +1,23 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+public class MainCTest {
+	
+	@Test
+	public void testAddAccount() {
+		
+		MemberInfo mInfo = new MemberInfo();
+		mInfo.setFName("anurag");
+		mInfo.setLName("Singh");
+		mInfo.setId(12345);
+		mInfo.setBalance(21.34);
+		
+		MainC.addAccount(mInfo);
+		
+		assertTrue(MainC.hashT1.containsKey(mInfo.getId()));
+		assertEquals(1, 2);
+	}
+
+}

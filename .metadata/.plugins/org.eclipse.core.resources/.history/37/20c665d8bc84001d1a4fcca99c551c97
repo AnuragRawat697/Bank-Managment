@@ -1,0 +1,10 @@
+import org.junit.jupiter.api.Test;
+
+public class MainCTest {
+	
+	@Test
+	public void testAddAccount() {
+		MemberInfo mInfo = new MemberInfo();
+	}
+
+}

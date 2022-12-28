@@ -1,0 +1,22 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class MainCTest {
+	
+	@Test
+	public void testAddAccount() {
+		MainC program = new MainC();
+		
+		MemberInfo mInfo = new MemberInfo();
+		mInfo.setFName("anurag");
+		mInfo.setLName("Singh");
+		mInfo.setId(12345);
+		mInfo.setBalance(21.34);
+		
+		program.addAccount(mInfo);
+		
+		
+	}
+
+}

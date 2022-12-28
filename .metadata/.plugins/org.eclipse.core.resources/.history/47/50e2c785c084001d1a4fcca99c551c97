@@ -1,0 +1,33 @@
+import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
+
+public class MainCTest {
+
+	@Test
+	public void testAddAccount() {
+
+		MemberInfo mInfo = new MemberInfo();
+		mInfo.setFName("anurag");
+		mInfo.setLName("Singh");
+		mInfo.setId(12345);
+		mInfo.setBalance(21.34);
+
+		MainC.addAccount(mInfo);
+
+		assertTrue(MainC.hashT1.containsKey(mInfo.getId()));
+	}
+
+	@Test
+	public void testDeleteAccount() {
+		MemberInfo mInfo = new MemberInfo();
+		mInfo.setFName("anurag");
+		mInfo.setLName("Singh");
+		mInfo.setId(12345);
+		mInfo.setBalance(21.34);
+		MainC.addAccount(mInfo);
+		MainC.deleteAccount(12345);
+		assertFalse(MainC.hashT1.contains(mInfo.getId()));
+	}
+
+}

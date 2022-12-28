@@ -1,0 +1,11 @@
+package tests;
+
+
+public class MainCTest {
+	
+	public void testAddAccount() {
+		
+		MemberInfo mInfo = new MemberInfo();
+	}
+
+}

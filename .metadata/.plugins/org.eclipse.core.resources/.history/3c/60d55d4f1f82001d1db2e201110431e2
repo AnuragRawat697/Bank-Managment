@@ -1,0 +1,228 @@
+import java.io.*;
+import java.util.*;
+
+public class Bank_Main {
+	private static Scanner memberFile;
+	private static RandomAccessFile raf;
+	// private static File file;
+	public static int idNumber;
+
+	public static void main(String[] args) throws IOException {
+
+		RandomAccessFile raf = null;
+		Scanner input = new Scanner(System.in);
+		int choice = 0;
+		InputStreamReader reader = new InputStreamReader(new FileInputStream("members.txt"), "UTF-16");
+
+		do {
+			menu();
+
+			System.out.print("Enter your choice: ");
+
+			try {
+				choice = input.nextInt();
+			}
+
+			catch (InputMismatchException ex) {
+				System.out.println("Non-numeric input");
+				input.next();
+				System.out.println();
+				continue;
+			}
+			switch (choice) {
+			case 1:
+				addAccount();
+				break;
+			case 2:
+				deleteAccount();
+				break;
+			case 4:
+				modifyAccount();
+				break;
+			case 5:
+				break;
+
+			default:
+				System.out.println("Make a selection according to menu");
+				break;
+			}
+		} while (choice != 5);
+	}
+
+	private static void modifyAccount() {
+		Scanner Input = new Scanner(System.in);
+		Members accountHolder = new Members();
+		System.out.print("Enter a I'd number: ");
+		idNumber = Input.nextInt();
+		try {
+			raf = new RandomAccessFile("members.txt", "rw");
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		}
+		try {
+			raf.seek((idNumber - 1) * 92);
+			accountHolder.readFromFile(raf);
+
+			if (!accountHolder.getFirstName().trim().equals("DELETED")) {
+				System.out.println(accountHolder);
+
+				int choice2;
+				do {
+					System.out.println();
+					System.out.println("1- Change the first name: ");
+					System.out.println("2- Change the last name: ");
+					System.out.println("3- Change ID: ");
+					System.out.println("4- Done: ");
+					System.out.print("Enter your choice: ");
+					choice2 = Input.nextInt();
+					switch (choice2) {
+					case 1:
+						System.out.print("Enter first name: ");
+						String firstName = Input.next();
+						raf.seek((idNumber - 1) * 92);
+
+						accountHolder.readFromFile(raf);
+						accountHolder.setFirstName(firstName);
+
+						raf.seek((idNumber - 1) * 92);
+						accountHolder.writeToFile(raf);
+
+						System.out.println();
+						break;
+
+					case 2:
+						System.out.print("Enter last name: ");
+						String lastName = Input.next();
+
+						raf.seek((idNumber - 1) * 92);
+						accountHolder.readFromFile(raf);
+						accountHolder.setLastName(lastName);
+
+						raf.seek((idNumber - 1) * 92);
+						accountHolder.writeToFile(raf);
+						break;
+
+					case 3:
+						System.out.print("Enter ID: ");
+						int id = Input.nextInt();
+						raf.seek((idNumber - 1) * 92);
+
+						accountHolder.readFromFile(raf);
+						accountHolder.setID(id);
+
+						raf.seek((idNumber - 1) * 92);
+						accountHolder.writeToFile(raf);
+						break;
+
+					case 4:
+						break;
+					}
+
+				} while (choice2 != 4);
+				System.out.println();
+			} else {
+				System.out.println("Can't modify a deleted record");
+				System.out.println();
+			}
+		} catch (
+
+		Exception ex) {
+			System.out.println(idNumber + " is an invalid record number");
+			System.out.println();
+
+		}
+	}
+
+	private static void deleteAccount()  {
+		try {
+			raf = new RandomAccessFile("members.txt", "rw");
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		}
+		Scanner Input = new Scanner(System.in);
+		Members member = new Members();
+		System.out.print("Enter the I'd number: ");
+		idNumber = Input.nextInt();
+		try {
+			raf.seek((idNumber - 1) * 92);
+			member.readFromFile(raf);
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!member.getFirstName().trim().equals("DELETED")) {
+			member.setFirstName("DELETED");
+			try {
+				raf.seek((idNumber - 1) * 92);
+				member.writeToFile(raf);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else
+			System.out.println("The account not found");
+		System.out.println();
+	}
+
+	public static void menu() {
+
+		System.out.println("\n Choose the option to perform the operation: ");
+		System.out.println("	1.	Open an account");
+		System.out.println("	2.	Delete an account");
+		System.out.println("	3.	ADD or Withdraw Money");
+		System.out.println("	4.	Make changes to your account");
+		System.out.println("	5.	Exit");
+		System.out.println();
+	}
+
+	public static void addAccount() {
+
+		Scanner input = new Scanner(System.in);
+		Members accountMember = new Members();
+		memberFile = new Scanner("memebrs.txt");
+		try {
+			raf = new RandomAccessFile("members.txt", "rw");
+			rafCreated();
+			raf.seek(raf.length());
+			accountMember.writeToFile(raf);
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+
+		}
+
+		System.out.print("Enter first name: ");
+		String firstName = input.next();
+
+		System.out.print("Enter last name: ");
+		String lastName = input.next();
+
+		System.out.print("Enter ID: ");
+		int id = input.nextInt();
+
+		System.out.print("Enter Ammount you want to start with: ");
+		double money = input.nextDouble();
+
+		accountMember.setData(firstName, lastName, id, money);
+		memberFile.close();
+
+	}
+
+	public static void rafCreated() {
+		Members accountMember = new Members();
+
+		while (memberFile.hasNext()) {
+			try {
+				accountMember.readFromFile(raf);
+
+				accountMember.writeToFile(raf);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}

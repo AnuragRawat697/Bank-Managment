@@ -1,0 +1,59 @@
+
+public class Members {
+	private final int LENGTH = 20;
+	private String fName;
+	private String lName;
+	private int ID;
+	private double Money;
+	private final int RECSIZE = 92;
+
+	public void setData(String first, String last, int id, double money) {
+		fName = padding(first, LENGTH);
+		lName = padding(last, LENGTH);
+		ID = id;
+		Money = money;
+	}
+
+	public void setFirst(String first) {
+		fName = padding(first, LENGTH);
+	}
+
+	public void setLast(String last) {
+		lName = padding(last, LENGTH);
+	}
+
+	public void setID(int id) {
+		ID = id;
+	}
+
+	public void setMoney(double money) {
+		Money = money;
+	}
+
+	public String getFirst() {
+		return fName;
+	}
+
+	public String getLast() {
+		return lName;
+	}
+
+	public int getID() {
+		return ID;
+	}
+	
+	public double getMoney(){
+		return Money;
+	}
+	
+	
+	public static String padding(String s, int size) {
+		if (s.length() > size)
+			s = s.substring(0, size);
+		else {
+			for (int i = s.length(); i < size; i++)
+				s += '	';
+		}
+		return s;
+	}
+}

@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class Bank_Main {
+	private static Scanner memberFile;
+	private static RandomAccessFile raf;
+	private static File file;
+	public static String fileName = "members";
+
+	public static void main(String[] args) throws IOException {
+
+		RandomAccessFile randAccessFile = null;
+		Scanner input = new Scanner(System.in);
+		int choice = 0;
+		file = new File(fileName);
+		
+		do {
+			menu();
+
+			System.out.print("Enter your choice: ");
+
+			try {
+				choice = input.nextInt();
+			}
+
+			catch (InputMismatchException ex) {
+				System.out.println("Non-numeric input");
+				input.next();
+				System.out.println();
+				continue;
+			}
+			switch (choice) {
+			case 1:
+				addAccount();
+			}
+		} while (choice != 5);
+	}
+
+	public static void menu() {
+
+		System.out.println("\n Choose the option to perform the operation: ");
+		System.out.println("	1.	Open an account");
+		System.out.println("	2.	Delete an account");
+		System.out.println("	3.	ADD or Withdraw Money");
+		System.out.println("	4.	Make changes to your account");
+		System.out.println("	5.	Exit");
+		System.out.println();
+	}
+
+	public static void addAccount() throws IOException {
+		Scanner input = new Scanner(System.in);
+		Members accountMember = new Members();
+		memberFile = new Scanner(file);
+		raf = new RandomAccessFile(file, "rw");
+		rafCreated();
+		raf.seek(raf.length());
+		accountMember.writeToFile(raf);
+
+		System.out.print("Enter first name: ");
+		String firstName = input.next();
+
+		System.out.print("Enter last name: ");
+		String lastName = input.next();
+
+		System.out.print("Enter ID: ");
+		int id = input.nextInt();
+
+		System.out.print("Enter Ammount you want to start with: ");
+		double money = input.nextDouble();
+
+		accountMember.setData(firstName, lastName, id, money);
+	}
+	public static void rafCreated() throws IOException {
+		Members accountMember = new Members();
+		
+		while (memberFile.hasNext()) {
+			accountMember.readFromFile(raf);
+			accountMember.writeToFile(raf);
+		}
+	}
+}

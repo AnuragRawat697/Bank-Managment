@@ -1,0 +1,13 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class MainCTest {
+	
+	@Test
+	public void testAddAccount() {
+		MemberInfo mInfo = new MemberInfo();
+		assertEquals(1, 2);
+	}
+
+}

@@ -1,0 +1,26 @@
+
+public class Members {
+	private final int LENGTH = 20;
+	private String fName;
+	private String lName;
+	private int ID;
+	private double Money;
+	private final int RECSIZE = 92;
+
+	public void setData(String first, String last, int id, double gpa) {
+		fName = pad(first, LENGTH);
+		lName = pad(last, LENGTH);
+		ID = id;
+		GPA = gpa;
+	}
+
+	public static String pad(String s, int size) {
+		if (s.length() > size)
+			s = s.substring(0, size);
+		else {
+			for (int i = s.length(); i < size; i++)
+				s += ' ';
+		}
+		return s;
+	}
+}
